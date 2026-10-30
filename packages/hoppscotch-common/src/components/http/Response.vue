@@ -4,6 +4,8 @@
       :response="doc.response"
       :is-embed="isEmbed"
       :is-loading="loading"
+      :can-compare="canCompare"
+      @compare="showResponseDiff = true"
     />
     <LensesResponseBodyRenderer
       v-if="!loading && hasResponse"
@@ -19,6 +21,13 @@
     :show="showSaveResponseName"
     @submit="onSaveAsExample"
     @hide-modal="showSaveResponseName = false"
+  />
+  <HttpResponseDiffModal
+    v-if="canCompare"
+    :show="showResponseDiff"
+    :previous="previousResponseDiffText"
+    :latest="responseDiffText"
+    @hide-modal="showResponseDiff = false"
   />
 </template>
 
@@ -39,6 +48,10 @@ import { useI18n } from "@composables/i18n"
 import { runMutation } from "~/helpers/backend/GQLClient"
 import { UpdateRequestDocument } from "~/helpers/backend/graphql"
 import * as E from "fp-ts/Either"
+import {
+  getResponseDiffText,
+  isComparableResponse,
+} from "~/helpers/utils/responseDiff"
 
 const t = useI18n()
 const toast = useToast()
@@ -74,6 +87,29 @@ const loading = computed(
   // Check both response type AND testResults to ensure we stay in loading state
   // during test execution (when testResults is null)
   () => doc.value.response?.type === "loading" || doc.value.testResults === null
+)
+
+const showResponseDiff = ref(false)
+
+// The previous run is only kept for full request tabs, not embeds
+const canCompare = computed(
+  () =>
+    !props.isEmbed &&
+    !loading.value &&
+    isComparableResponse(doc.value.response) &&
+    isComparableResponse(doc.value.previousResponse)
+)
+
+const responseDiffText = computed(() =>
+  isComparableResponse(doc.value.response)
+    ? getResponseDiffText(doc.value.response)
+    : ""
+)
+
+const previousResponseDiffText = computed(() =>
+  isComparableResponse(doc.value.previousResponse)
+    ? getResponseDiffText(doc.value.previousResponse)
+    : ""
 )
 
 const saveAsExample = () => {

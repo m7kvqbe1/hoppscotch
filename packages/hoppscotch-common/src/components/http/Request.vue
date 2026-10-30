@@ -270,6 +270,7 @@ import { getMethodLabelColor } from "~/helpers/rest/labelColoring"
 import { WorkspaceService } from "~/services/workspace.service"
 import { KernelInterceptorService } from "~/services/kernel-interceptor.service"
 import { handleTokenValidation } from "~/helpers/handleTokenValidation"
+import { isComparableResponse } from "~/helpers/utils/responseDiff"
 
 const t = useI18n()
 const interceptorService = useService(KernelInterceptorService)
@@ -343,6 +344,11 @@ const newSendRequest = async () => {
     return
   }
   ensureMethodInEndpoint()
+
+  // Keep the last completed run so it can be compared with this one
+  if (isComparableResponse(tab.value.document.response)) {
+    tab.value.document.previousResponse = tab.value.document.response
+  }
 
   tab.value.document.response = {
     type: "loading",

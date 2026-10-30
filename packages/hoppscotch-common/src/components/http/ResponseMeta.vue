@@ -120,6 +120,15 @@
             }}
           </span>
         </div>
+        <HoppButtonSecondary
+          v-if="canCompare"
+          v-tippy="{ theme: 'tooltip' }"
+          :title="t('response.compare_with_previous')"
+          :icon="IconGitCompare"
+          :label="t('response.compare')"
+          class="!py-0"
+          @click="emit('compare')"
+        />
       </div>
     </div>
     <AppInspection
@@ -145,6 +154,7 @@ import { useService } from "dioc/vue"
 import { InspectionService } from "~/services/inspection"
 import { WorkspaceTabsService } from "~/services/tab/workspace-tabs"
 import IconExternalLink from "~icons/lucide/external-link"
+import IconGitCompare from "~icons/lucide/git-compare"
 
 const t = useI18n()
 const colorMode = useColorMode()
@@ -155,11 +165,17 @@ const props = withDefaults(
     response: HoppRESTResponse | null | undefined
     isEmbed?: boolean
     isLoading?: boolean
+    canCompare?: boolean
   }>(),
   {
     isLoading: false,
+    canCompare: false,
   }
 )
+
+const emit = defineEmits<{
+  (e: "compare"): void
+}>()
 
 /**
  * Gives the response size in a human readable format
