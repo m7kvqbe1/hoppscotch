@@ -264,6 +264,7 @@ export class WorkspaceTabsService extends TabService<HoppTabDocument> {
         doc: {
           ...tab.document,
           response: null,
+          previousResponse: null,
           // `null` is the run-in-flight sentinel — persisting it verbatim
           // would restore into a permanent loading state with no run to
           // ever clear it

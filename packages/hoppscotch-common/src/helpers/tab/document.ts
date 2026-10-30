@@ -257,6 +257,13 @@ export type HoppRequestDocument = {
   response?: HoppRESTResponse | null
 
   /**
+   * The response of the run before the current one, kept so the two runs
+   * can be compared side by side
+   * (if any)
+   */
+  previousResponse?: HoppRESTResponse | null
+
+  /**
    * The test results as it is in the document
    * (if any)
    */

@@ -254,6 +254,7 @@ declare module 'vue' {
     HttpRequestTab: typeof import('./components/http/RequestTab.vue')['default']
     HttpRequestVariables: typeof import('./components/http/RequestVariables.vue')['default']
     HttpResponse: typeof import('./components/http/Response.vue')['default']
+    HttpResponseDiffModal: typeof import('./components/http/ResponseDiffModal.vue')['default']
     HttpResponseInterface: typeof import('./components/http/ResponseInterface.vue')['default']
     HttpResponseMeta: typeof import('./components/http/ResponseMeta.vue')['default']
     HttpSaveResponseName: typeof import('./components/http/SaveResponseName.vue')['default']
