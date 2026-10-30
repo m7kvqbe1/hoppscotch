@@ -15,7 +15,7 @@ serde_json = { version = "1", features = [] }
 thiserror = { version = "2.0.3", features = [] }
 url = { version = "2.5.3", features = ["serde"] }
 reqwest = { version = "0.12.9", features = ["json"] }
-zip = { version = "2.2.0", features = [] }
+zip = { version = "9.0.5", features = [] }
 tokio = { version = "1.41.1", features = [] }
 mime-infer = { version = "3.0.0", features = [] }
 regex = { version = "1.11.1", features = [] }
